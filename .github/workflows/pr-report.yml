@@ -27,7 +27,7 @@ jobs:
           CREATE_DISCUSSION: "false"
           DAYS_BACK: "7"
         run: |
-          bash .github/scripts/generate-agenda.sh
+          bash .github/scripts/nut-list.sh
 
       - name: Create Pull Request
         env:
