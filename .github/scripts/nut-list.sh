@@ -15,8 +15,21 @@ fi
 # Calculate date range (last N days)
 SINCE_DATE_ONLY=$(date -u -d "${DAYS_BACK} days ago" +"%Y-%m-%d")  # GitHub search likes YYYY-MM-DD
 SINCE_DATE_ISO=$(date -u -d "${DAYS_BACK} days ago" +"%Y-%m-%dT%H:%M:%SZ")
-MEETING_DATE=$(date -u -d "$(date -u +%Y-%m-01) +2 weeks Thursday" +"%b %d %Y %H:%M UTC")
-FILE_DATE=$(date -u +"%Y-%m-%d")
+# Optional: set a fixed meeting time like "15:00"
+MEETING_TIME="${MEETING_TIME:-00:00}"
+
+CURRENT_MONTH=$(date -u +%m)
+
+if [[ "$CURRENT_MONTH" == "11" || "$CURRENT_MONTH" == "12" ]]; then
+  # November/December → 3rd Thursday of the current month
+  MEETING_DATE=$(date -u -d "$(date -u +%Y-%m-01) +2 weeks Thursday ${MEETING_TIME}" +"%b %d %Y %H:%M UTC")
+else
+  # Other months → last Thursday of the current month
+  NEXT_MONTH_FIRST=$(date -u -d "$(date -u +%Y-%m-01) +1 month" +%Y-%m-01)
+  MEETING_DATE=$(date -u -d "${NEXT_MONTH_FIRST} last Thursday ${MEETING_TIME}" +"%b %d %Y %H:%M UTC")
+fi
+FILE_DATE = $MEETING_DATE
+#FILE_DATE=$(date -u +"%Y-%m-%d")
 
 echo "Generating meeting agenda for ${MEETING_DATE}"
 echo "Fetching data since ${SINCE_DATE_ISO}"
