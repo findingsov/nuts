@@ -57,6 +57,6 @@ jobs:
           # Create pull request
           gh pr create \
             --title "NUT update - ${MEETING_DATE}" \
-            --body "Automated weekly meeting agenda for CDK Development Meeting on ${MEETING_DATE}." \
+            --body "Automated monthly nut update for ${MEETING_DATE}." \
             --base main \
             --head "$BRANCH_NAME"
