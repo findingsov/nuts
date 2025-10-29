@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Configuration
-REPO="${GITHUB_REPOSITORY:-}"
+REPO="${GITHUB_REPOSITORY:-findingsov/nuts}"
 DAYS_BACK="${DAYS_BACK:-21}"
 OUTPUT_DIR="meetings"
 OUTPUT_TO_FILE="${OUTPUT_TO_FILE:-true}"
