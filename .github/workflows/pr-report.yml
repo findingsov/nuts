@@ -1,17 +1,12 @@
 name: List Recent PRs
 
 on:
-  workflow_dispatch:  # Allows manual trigger
-  schedule:
-    - cron: '0 0 1 * *'  # Runs monthly
+  workflow_dispatch:
 
 jobs:
   list-prs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
       - name: List PRs opened in the last month
         run: |
           echo "PRs opened in the last month:"
@@ -21,7 +16,7 @@ jobs:
       - name: List PRs merged in the last month
         run: |
           echo "PRs merged in the last month:"
-          gh pr list --state merged --search "merged:>=2024-10-01" --json number,title,author,mergedAt --template \
+          gh pr list --state merged --search "merged:>=$(date -d '1 month ago' +%Y-%m-%d')" --json number,title,author,mergedAt --template \
           "{{range .}}{{.number}}: {{.title}} (by {{.author.login}}) merged on {{.mergedAt}}\n{{end}}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
