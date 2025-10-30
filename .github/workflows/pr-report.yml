@@ -33,7 +33,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          MEETING_DATE=$(date -d "$(date +%Y-%m-01) + 2 weeks thursday" +%Y-%m-%d)   
+        MEETING_DATE=$(if [[ $(date +%m) == 11 || $(date +%m) == 12 ]]; then
+        date -d "$(date +%Y-%m-01) +2 weeks thursday" +%Y-%m-%d
+        else
+        next_month_first=$(date -d "$(date +%Y-%m-01) +1 month" +%Y-%m-01)
+        date -d "$next_month_first last thursday" +%Y-%m-%d
+        fi)
+      
           BRANCH_NAME="NUT-UPDATES-${MEETING_DATE}"
 
           git config --global user.name 'github-actions[bot]'
