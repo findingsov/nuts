@@ -15,7 +15,7 @@ fi
 # Calculate date range (last N days)
 SINCE_DATE_ONLY=$(date -u -d "${DAYS_BACK} days ago" +"%Y-%m-%d")  # GitHub search likes YYYY-MM-DD
 SINCE_DATE_ISO=$(date -u -d "${DAYS_BACK} days ago" +"%Y-%m-%dT%H:%M:%SZ")
-MEETING_DATE=$(date -u -d "$(date -u +%Y-%m-01) +2 weeks Thursday" +"%b %d %Y %H:%M UTC")
+MEETING_DATE=$(if [[ $(date -u +%m) == 11 || $(date -u +%m) == 12 ]]; then date -u -d "$(date -u +%Y-%m-01) +2 weeks Thursday ${MEETING_TIME:-00:00}" +"%b %d %Y %H:%M UTC"; else NEXT_MONTH_FIRST=$(date -u -d "$(date -u +%Y-%m-01) +1 month" +%Y-%m-01); date -u -d "${NEXT_MONTH_FIRST} last Thursday ${MEETING_TIME:-00:00}" +"%b %d %Y %H:%M UTC"; fi); FILE_DATE=$(date -u +"%Y-%m-%d")
 FILE_DATE=$(date -u +"%Y-%m-%d")
 
 echo "Generating meeting agenda for ${MEETING_DATE}"
